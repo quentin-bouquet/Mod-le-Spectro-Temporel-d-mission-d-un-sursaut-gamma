@@ -15,18 +15,20 @@ def min(a,b):
         return b
 
 def choix_1(a, b, c, p):
+    x = a / b
     if a < b:
-        return np.power(a / b, 1/3)
+        return np.power(x , 1/3)
     elif b <= a <= c:
-        return np.power(a / b, -(p-1)/2)
+        return np.power(x, -(p-1)/2)
     elif c <= a:
-        return np.power(c / b, -(p-1)/2) * np.power(a / c, -p/2)
+        return np.power(c / b, -p/2) * np.power(x, -p/2)
     
 def choix_2(a, b, c, p):
+    x = a / b 
     if a < b:
-        return np.power(a / b, 1/3)
+        return np.power(x, 1 / 3)
     elif b <= a <= c:
-        return np.power(a / b, -1/2)
+        return np.power(x, -1 / 2)
     elif c <= a:
-        return np.power(c / b, -1/2) * np.power(a / c, -p/2)
+        return np.power(x, -(p - 1)/2) * np.power(c / b, -p / 2) * np.power(c, 1 / 2)
 
