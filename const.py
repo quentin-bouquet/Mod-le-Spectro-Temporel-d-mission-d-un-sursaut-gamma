@@ -10,4 +10,4 @@ q_e = const.e
 m_p = const.physical_constants['proton mass'][0]
 m_e = const.physical_constants['electron-proton mass ratio'][0]*m_p
 sigma_T = (8 *const.pi / 3 ) *  const.physical_constants['classical electron radius'][0]**2
-
+epsi_e = 0.14
