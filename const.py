@@ -3,7 +3,7 @@
 import scipy.constants as const
 
 
-c = const.c
+cel = const.c
 pi = const.pi
 k_b= const.Boltzmann
 q_e = const.e
