@@ -1,6 +1,7 @@
 import const 
 from scipy.special import gamma
-
+import matplotlib.pyplot as plt
+import numpy as np 
 
 
 
@@ -46,3 +47,17 @@ def alpha_prime_nu_prime(nu_prime, nu_prime_c, nu_prime_m, gamma_prime_m, gamma_
         alpha_prime_nu_prime_zero = c_14(nu_zero, nu_prime_c, nu_prime_m, gamma_prime_m, gamma_prime_c)
         eta = -(p_tildt + 4) / 2
     return alpha_prime_nu_prime_zero * (nu_prime / nu_zero) ** eta
+#TODO: improt gamma_maj, find value of beta and mu
+
+def nu_prime(nu, xi, beta, mu):
+    return gamma_maj(xi) * (1 - beta * mu) * nu 
+
+
+'''
+Plotting phase : 
+'''
+#Plotting with gamma_sh as parameter knowing that xi is a function of gamma_sh
+
+gamma_sh = np.linspace(1.2, 100, 100)
+
+
