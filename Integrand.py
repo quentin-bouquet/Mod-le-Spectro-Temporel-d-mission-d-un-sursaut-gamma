@@ -36,20 +36,28 @@ def K3(x) :
     return kv(3, x)
 
 # Développement limité des fonctions de bessel pour x proche de 0
+'''
 def f1(x):
     if x < 650:
         return K3(x)/K2(x)
     else :
         return 1 + 2.5/x
+'''
 
+def f1(x):
+
+    res = np.zeros_like(x)
+    res[x < 650] = K3(x)/K2(x)
+    res[x>=650] = 1 + 2.5/x
+    return res
 
 # Développement limité des fonctions de bessel pour x proche de 0
 def f2(x):
     if x < 650:
         return K2(x)/(3*K3(x) + K1(x) - 4*K2(x))
     else: 
-        return x/(3 + np.power(x,2) - 4*x)
-
+        #return x/(3 + np.power(x,2) - 4*x)
+        return 5 / 3
 
 
 # facteur de lorentz 
@@ -78,10 +86,10 @@ def C_BM(E):
 def C_ST(E):
     return (2/5) * 1.15 * (E / (n0 * const.m_p * const.celer**5))**(1/5)
 
-def radius(T, teta, phi):
+def radius(T, mu_val):
     C_BM_val = C_BM(En)
     C_ST_val = C_ST(En)
-    mu_val = mu(teta, phi)
+    mu_val
     def f(R, t):
         t =T+ mu_val * R / const.celer
         t_safe = np.where(t>0, t, 0.000001)
@@ -103,7 +111,8 @@ def radius(T, teta, phi):
 # Retourne beta_sh
 def shock_speed(E, T, teta, phi):
     # mu_val est une variable globale qui est modifiée dans le calcul de l'intégrante. 
-    radius_value = radius(T, teta, phi)
+    mu_val = mu(teta, phi)
+    radius_value = radius(T, mu_val)
     t = T + mu_val * radius_value / const.celer
     mine = min((C_BM(E)**2) * (t) ** (-3) + (C_ST(E)**2) * (t) ** (-6/5), sh_max**2)
     beta_sh = np.sqrt(mine / (1 + mine))
@@ -304,9 +313,9 @@ def integrand2(T,teta,phi):
     global mu_val
 
     mu_val = mu(teta, phi)
-    radius_val = radius(T,teta,phi) # Rayon 
+    radius_val = radius(T, mu_val) # Rayon 
     tval = T + mu(teta, phi)*radius_val/const.celer 
-    bsh_val = shock_speed(En,T,tval,phi)
+    bsh_val = shock_speed(En, T, teta, phi)
     gammash_val = np.sqrt(1/(1   -   bsh_val**2))
     zeta_val = sol(gammash_val)
     beta_val = beta(En,tval, teta,phi)
@@ -399,7 +408,9 @@ def integrand2(T,teta,phi):
     ''')
     print('energ_normlized', energ_normalized)
     print('fact denorm', fact_denorm(p_val,gammash_val))
-    return angular_sh * ratio_1 * ratio_2_val
+    D_mp = 40 
+    D_m = D_mp * 3.086 * 10 ** 22
+    return angular_sh * ratio_1 * ratio_2_val / ( 4 * const.pi * D_m ** 2)
 
 print(f'''calcul de l'intégrande''', integrand2(200,20*3.14/180,20*3.14/180))
 
@@ -462,8 +473,8 @@ for T in T_vals:
     Y3.append(nu_prime_zero_val)
     Y4.append(c_11_val)
     Y5.append(c_14_val)
-    #Y6.append(alpha_prime_nu_prime_val)
-    Y6.append(angular_sh*ratio_1*ratio_2_val)
+    Y6.append(alpha_prime_nu_prime_val)
+    #Y6.append(angular_sh*ratio_1*ratio_2_val)
     #print(Y6)
     #logY6 = np.log10(Y6)
     print(' done', T)
