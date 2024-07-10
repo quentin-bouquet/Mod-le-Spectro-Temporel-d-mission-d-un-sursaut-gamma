@@ -57,7 +57,7 @@ def f2(x):
         return K2(x)/(3*K3(x) + K1(x) - 4*K2(x))
     else: 
         #return x/(3 + np.power(x,2) - 4*x)
-        return 5 / 3
+        return x / 6
 
 
 # facteur de lorentz 
