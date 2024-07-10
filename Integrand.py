@@ -51,7 +51,7 @@ def f1(x):
     res[x>=650] = 1 + 2.5/x
     return res
 
-# Développement limité des fonctions de bessel pour x proche de 0
+# Développement limité des fonctions de bessel pour x tend vers l'infini 
 def f2(x):
     if x < 650:
         return K2(x)/(3*K3(x) + K1(x) - 4*K2(x))
